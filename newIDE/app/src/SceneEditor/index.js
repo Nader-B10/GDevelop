@@ -349,6 +349,16 @@ export default class SceneEditor extends React.Component<Props, State> {
           onOpenSettings={this.openSceneProperties}
           settingsIcon={editSceneIconReactNode}
           onOpenSceneVariables={this.editLayoutVariables}
+          // 3D Toolbar props
+          show3DToolbar={!!this.get3DControlHandlers()?.is3DModeActive?.()}
+          gizmoMode={this.get3DControlHandlers()?.get3DGizmoMode?.() || 'translate'}
+          onGizmoModeChange={this.handle3DGizmoModeChange}
+          freeCameraEnabled={!!this.get3DControlHandlers()?.is3DFreeCameraEnabled?.()}
+          onFreeCameraToggle={this.handle3DFreeCameraToggle}
+          gizmoEnabled={!!this.get3DControlHandlers()?.are3DGizmosEnabled?.()}
+          onGizmoToggle={this.handle3DGizmosToggle}
+          onToggleGizmoSpace={this.handle3DGizmoSpaceToggle}
+          gizmoSpace={this.get3DControlHandlers()?.get3DGizmoSpace?.() || 'local'}
         />
       );
     } else {
