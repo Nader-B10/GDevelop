@@ -20,6 +20,7 @@ import ExtractAsCustomObjectDialog from './CustomObjectExtractor/ExtractAsCustom
 import { type ObjectEditorTab } from '../ObjectEditor/ObjectEditorDialog';
 import MosaicEditorsDisplayToolbar from './MosaicEditorsDisplay/Toolbar';
 import SwipeableDrawerEditorsDisplayToolbar from './SwipeableDrawerEditorsDisplay/Toolbar';
+import Editor3DToolbar from '../InstancesEditor/Editor3DToolbar';
 import { serializeToJSObject } from '../Utils/Serializer';
 import Clipboard from '../Utils/Clipboard';
 import { SafeExtractor } from '../Utils/SafeExtractor';
