@@ -1839,6 +1839,38 @@ export default class InstancesEditor extends Component<Props, State> {
     }
   };
 
+  _update3DSelection = () => {
+    if (!this._showObjectInstancesIn3D || !this._selectedInstances3D) return;
+
+    const selectedInstances = this.props.instancesSelection.getSelectedInstances();
+    const instanceToObjectMap = new Map();
+    
+    // Create a map of instances to their 3D objects
+    selectedInstances.forEach(instance => {
+      if (this.props.isInstanceOf3DObject(instance)) {
+        // Get the 3D object for this instance (this would need to be implemented)
+        // For now, we'll use a placeholder
+        const object3D = this._get3DObjectForInstance(instance);
+        if (object3D) {
+          instanceToObjectMap.set(instance, object3D);
+        }
+      }
+    });
+
+    this._selectedInstances3D.updateSelection(selectedInstances, instanceToObjectMap);
+  };
+
+  _get3DObjectForInstance = (instance: gdInitialInstance): THREE.Object3D | null => {
+    // This is a placeholder - in a real implementation, you'd get the actual 3D object
+    // from the renderer that corresponds to this instance
+    if (this.instancesRenderer) {
+      // The instancesRenderer would need a method to get 3D objects
+      // For now, return null
+      return null;
+    }
+    return null;
+  };
+
   get3DGizmoMode = (): 'translate' | 'rotate' | 'scale' => {
     return this._current3DGizmoMode;
   };
