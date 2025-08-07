@@ -42,6 +42,7 @@
     "worker-loader": "^3.0.8"
   },
   "dependencies": {
+    "@babel/runtime": "^7.28.2",
     "@blueprintjs/core": "file:src/Utils/BlueprintJsPlaceholder",
     "@blueprintjs/icons": "file:src/Utils/BlueprintJsPlaceholder",
     "@lingui/react": "github:4ian/lingui-react#master",
