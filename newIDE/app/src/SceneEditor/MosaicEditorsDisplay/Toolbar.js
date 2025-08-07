@@ -19,6 +19,7 @@ import TrashIcon from '../../UI/CustomSvgIcons/Trash';
 import GridIcon from '../../UI/CustomSvgIcons/Grid';
 import ZoomInIcon from '../../UI/CustomSvgIcons/ZoomIn';
 import EditSceneIcon from '../../UI/CustomSvgIcons/EditScene';
+import Editor3DToolbar from '../../InstancesEditor/Editor3DToolbar';
 import {
   OPEN_INSTANCES_PANEL_BUTTON_ID,
   OPEN_LAYERS_PANEL_BUTTON_ID,
