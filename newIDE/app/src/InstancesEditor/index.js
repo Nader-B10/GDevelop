@@ -224,6 +224,29 @@ export default class InstancesEditor extends Component<Props, State> {
         onMove: this.moveSelection,
         onEscape: this.onPressEscape,
         ...this.props.instancesEditorShortcutsCallbacks,
+        // 3D Gizmo shortcuts
+        onKey: (event: KeyboardEvent) => {
+          if (this._showObjectInstancesIn3D) {
+            if (event.key.toLowerCase() === 't') {
+              this._set3DGizmoMode('translate');
+              event.preventDefault();
+              return true;
+            } else if (event.key.toLowerCase() === 'r') {
+              this._set3DGizmoMode('rotate');
+              event.preventDefault();
+              return true;
+            } else if (event.key.toLowerCase() === 's') {
+              this._set3DGizmoMode('scale');
+              event.preventDefault();
+              return true;
+            } else if (event.key.toLowerCase() === 'x') {
+              this._toggle3DGizmoSpace();
+              event.preventDefault();
+              return true;
+            }
+          }
+          return false;
+        },
       },
     });
 
