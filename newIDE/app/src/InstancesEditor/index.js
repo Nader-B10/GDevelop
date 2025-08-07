@@ -1610,6 +1610,11 @@ export default class InstancesEditor extends Component<Props, State> {
         this.fpsLimiter.shouldUpdate() &&
         !shouldPreventRenderingInstanceEditors()
       ) {
+        // Update 3D controllers
+        if (this._showObjectInstancesIn3D && this._freeCameraController) {
+          this._freeCameraController.update();
+        }
+        
         this.canvasCursor.render();
         this.grid.render();
         this.highlightedInstance.render();
