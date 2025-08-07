@@ -2420,4 +2420,54 @@ export default class SceneEditor extends React.Component<Props, State> {
       </ResponsiveWindowMeasurer>
     );
   }
+
+  // 3D Control Functions
+  get3DControlHandlers = () => {
+    const { editorDisplay } = this;
+    if (!editorDisplay || !editorDisplay.instancesHandlers) return null;
+    
+    return {
+      get3DGizmoMode: editorDisplay.instancesHandlers.get3DGizmoMode,
+      get3DGizmoSpace: editorDisplay.instancesHandlers.get3DGizmoSpace,
+      is3DFreeCameraEnabled: editorDisplay.instancesHandlers.is3DFreeCameraEnabled,
+      are3DGizmosEnabled: editorDisplay.instancesHandlers.are3DGizmosEnabled,
+      is3DModeActive: editorDisplay.instancesHandlers.is3DModeActive,
+      _set3DGizmoMode: editorDisplay.instancesHandlers._set3DGizmoMode,
+      _toggle3DGizmoSpace: editorDisplay.instancesHandlers._toggle3DGizmoSpace,
+      _toggle3DFreeCamera: editorDisplay.instancesHandlers._toggle3DFreeCamera,
+      _toggle3DGizmos: editorDisplay.instancesHandlers._toggle3DGizmos,
+    };
+  };
+
+  handle3DGizmoModeChange = (mode: 'translate' | 'rotate' | 'scale') => {
+    const handlers = this.get3DControlHandlers();
+    if (handlers && handlers._set3DGizmoMode) {
+      handlers._set3DGizmoMode(mode);
+      this.updateToolbar();
+    }
+  };
+
+  handle3DFreeCameraToggle = () => {
+    const handlers = this.get3DControlHandlers();
+    if (handlers && handlers._toggle3DFreeCamera) {
+      handlers._toggle3DFreeCamera();
+      this.updateToolbar();
+    }
+  };
+
+  handle3DGizmosToggle = () => {
+    const handlers = this.get3DControlHandlers();
+    if (handlers && handlers._toggle3DGizmos) {
+      handlers._toggle3DGizmos();
+      this.updateToolbar();
+    }
+  };
+
+  handle3DGizmoSpaceToggle = () => {
+    const handlers = this.get3DControlHandlers();
+    if (handlers && handlers._toggle3DGizmoSpace) {
+      handlers._toggle3DGizmoSpace();
+      this.updateToolbar();
+    }
+  };
 }
