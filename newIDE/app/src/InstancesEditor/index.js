@@ -182,6 +182,13 @@ export default class InstancesEditor extends Component<Props, State> {
   contextMenuLongTouchTimeoutID: TimeoutID;
   hasCursorMovedSinceItIsDown = false;
   _showObjectInstancesIn3D: boolean = false;
+  
+  // 3D Controllers
+  _freeCameraController: FreeCameraController | null = null;
+  _selectedInstances3D: SelectedInstances3D | null = null;
+  _is3DFreeCameraEnabled: boolean = false;
+  _are3DGizmosEnabled: boolean = true;
+  _current3DGizmoMode: 'translate' | 'rotate' | 'scale' = 'translate';
 
   state = {
     renderingError: null,
