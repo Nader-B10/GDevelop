@@ -1756,4 +1756,103 @@ export default class InstancesEditor extends Component<Props, State> {
       </DropTarget>
     );
   }
+
+  // 3D Controllers Methods
+  _initialize3DControllers = (threeRenderer: THREE.WebGLRenderer) => {
+    if (!this._showObjectInstancesIn3D) return;
+
+    // Create a temporary camera and scene for the controllers
+    const tempCamera = new THREE.PerspectiveCamera(
+      75,
+      this.props.width / this.props.height,
+      0.1,
+      1000
+    );
+    tempCamera.position.set(0, 0, 5);
+
+    const tempScene = new THREE.Scene();
+
+    // Initialize Free Camera Controller
+    this._freeCameraController = new FreeCameraController({
+      camera: tempCamera,
+      renderer: threeRenderer,
+      enableKeys: true,
+    });
+
+    // Initialize 3D Gizmos Controller
+    this._selectedInstances3D = new SelectedInstances3D({
+      threeRenderer: threeRenderer,
+      threeCamera: tempCamera,
+      threeScene: tempScene,
+      onInstanceTransformed: this._onInstance3DTransformed,
+    });
+
+    this._selectedInstances3D.setEnabled(this._are3DGizmosEnabled);
+    this._selectedInstances3D.setMode(this._current3DGizmoMode);
+  };
+
+  _onInstance3DTransformed = (instance: gdInitialInstance, transformType: string) => {
+    // Update the instance in GDevelop
+    if (transformType === 'translate') {
+      this.props.onInstancesMoved([instance]);
+    } else if (transformType === 'rotate') {
+      this.props.onInstancesRotated([instance]);
+    } else if (transformType === 'scale') {
+      this.props.onInstancesResized([instance]);
+    }
+
+    // Force re-render
+    this.fpsLimiter.notifyInteractionHappened();
+  };
+
+  _set3DGizmoMode = (mode: 'translate' | 'rotate' | 'scale') => {
+    this._current3DGizmoMode = mode;
+    if (this._selectedInstances3D) {
+      this._selectedInstances3D.setMode(mode);
+    }
+  };
+
+  _toggle3DGizmoSpace = () => {
+    if (this._selectedInstances3D) {
+      this._selectedInstances3D.toggleSpace();
+    }
+  };
+
+  _toggle3DFreeCamera = () => {
+    this._is3DFreeCameraEnabled = !this._is3DFreeCameraEnabled;
+    if (this._freeCameraController) {
+      if (this._is3DFreeCameraEnabled) {
+        this._freeCameraController.enable();
+      } else {
+        this._freeCameraController.disable();
+      }
+    }
+  };
+
+  _toggle3DGizmos = () => {
+    this._are3DGizmosEnabled = !this._are3DGizmosEnabled;
+    if (this._selectedInstances3D) {
+      this._selectedInstances3D.setEnabled(this._are3DGizmosEnabled);
+    }
+  };
+
+  get3DGizmoMode = (): 'translate' | 'rotate' | 'scale' => {
+    return this._current3DGizmoMode;
+  };
+
+  get3DGizmoSpace = (): 'local' | 'world' => {
+    return this._selectedInstances3D ? this._selectedInstances3D.getCurrentSpace() : 'local';
+  };
+
+  is3DFreeCameraEnabled = (): boolean => {
+    return this._is3DFreeCameraEnabled;
+  };
+
+  are3DGizmosEnabled = (): boolean => {
+    return this._are3DGizmosEnabled;
+  };
+
+  is3DModeActive = (): boolean => {
+    return this._showObjectInstancesIn3D;
+  };
 }
