@@ -1249,6 +1249,9 @@ export default class InstancesEditor extends Component<Props, State> {
         this.props.instancesSelection.getSelectedInstances()
       );
     }
+    
+    // Update 3D selection
+    this._update3DSelection();
 
     this.instancesMover.startMove(sceneX, sceneY);
   };
