@@ -668,6 +668,14 @@ export default class InstancesEditor extends Component<Props, State> {
     if (this.pixiRenderer) {
       this.pixiRenderer.destroy();
     }
+    
+    // Clean up 3D controllers
+    if (this._freeCameraController) {
+      this._freeCameraController.dispose();
+    }
+    if (this._selectedInstances3D) {
+      this._selectedInstances3D.dispose();
+    }
   }
 
   // To be updated, see https://reactjs.org/docs/react-component.html#unsafe_componentwillreceiveprops.
