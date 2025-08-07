@@ -34,6 +34,7 @@ import InstancesSelection from './InstancesSelection';
 import LongTouchHandler from './LongTouchHandler';
 import FreeCameraController from './FreeCameraController';
 import SelectedInstances3D from './SelectedInstances3D';
+import Editor3DToolbar from './Editor3DToolbar';
 import {
   getRecommendedInitialZoomFactor,
   type InstancesEditorSettings,
