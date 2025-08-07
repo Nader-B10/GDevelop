@@ -32,6 +32,8 @@ import PinchHandler, { shouldBeHandledByPinch } from './PinchHandler';
 import { type ScreenType } from '../UI/Responsive/ScreenTypeMeasurer';
 import InstancesSelection from './InstancesSelection';
 import LongTouchHandler from './LongTouchHandler';
+import FreeCameraController from './FreeCameraController';
+import SelectedInstances3D from './SelectedInstances3D';
 import {
   getRecommendedInitialZoomFactor,
   type InstancesEditorSettings,
