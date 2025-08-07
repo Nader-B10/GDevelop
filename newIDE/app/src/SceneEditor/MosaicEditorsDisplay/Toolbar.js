@@ -54,6 +54,16 @@ type Props = {|
   onOpenSettings?: ?() => void,
   settingsIcon?: React.Node,
   onOpenSceneVariables: () => void,
+  // 3D Toolbar props
+  show3DToolbar?: boolean,
+  gizmoMode?: 'translate' | 'rotate' | 'scale',
+  onGizmoModeChange?: ('translate' | 'rotate' | 'scale') => void,
+  freeCameraEnabled?: boolean,
+  onFreeCameraToggle?: () => void,
+  gizmoEnabled?: boolean,
+  onGizmoToggle?: () => void,
+  onToggleGizmoSpace?: () => void,
+  gizmoSpace?: 'local' | 'world',
 |};
 
 const Toolbar = React.memo<Props>(function Toolbar(props) {
