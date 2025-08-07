@@ -281,6 +281,9 @@ export default class InstancesEditor extends Component<Props, State> {
       });
 
       this.threeRenderer = threeRenderer;
+      
+      // Initialize 3D controllers
+      this._initialize3DControllers(threeRenderer);
     } else {
       // Create the renderer and setup the rendering area for scene editor.
       this.pixiRenderer = PIXI.autoDetectRenderer({
