@@ -87,6 +87,22 @@ const Toolbar = React.memo<Props>(function Toolbar(props) {
         canDeleteSelection={props.selectedInstancesCount !== 0}
         onOpenSceneVariables={props.onOpenSceneVariables}
       />
+      {/* 3D Toolbar */}
+      {props.show3DToolbar && props.onGizmoModeChange && (
+        <>
+          <ToolbarSeparator />
+          <Editor3DToolbar
+            gizmoMode={props.gizmoMode || 'translate'}
+            onGizmoModeChange={props.onGizmoModeChange}
+            freeCameraEnabled={props.freeCameraEnabled || false}
+            onFreeCameraToggle={props.onFreeCameraToggle || (() => {})}
+            gizmoEnabled={props.gizmoEnabled || true}
+            onGizmoToggle={props.onGizmoToggle || (() => {})}
+            onToggleGizmoSpace={props.onToggleGizmoSpace || (() => {})}
+            gizmoSpace={props.gizmoSpace || 'local'}
+          />
+        </>
+      )}
       <ToolbarGroup lastChild>
         <IconButton
           size="small"
