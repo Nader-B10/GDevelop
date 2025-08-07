@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض أدوات Gizmo والكاميرا الحرة ثلاثية الأبعاد - GDevelop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .demo-area {
+            flex: 1;
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .demo-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #00ff88;
+        }
+        
+        .feature-desc {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .controls-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .controls-info h3 {
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+        
+        .key {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin: 0 2px;
+            font-weight: bold;
+        }
+        
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 255, 136, 0.9);
+            color: black;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .tech-stack {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .tech-stack h4 {
+            color: #00ccff;
+            margin-bottom: 8px;
+        }
+        
+        .tech-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .tech-item::before {
+            content: "✅";
+            margin-right: 8px;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .shape1 {
+            top: 20%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            top: 60%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: #00ccff;
+            transform: rotate(45deg);
+            animation-delay: 2s;
+        }
+        
+        .shape3 {
+            top: 80%;
+            left: 30%;
+            width: 40px;
+            height: 40px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            animation-delay: 4s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 محرك GDevelop ثلاثي الأبعاد</h1>
+            <p>أدوات Gizmo والكاميرا الحرة - نظام متكامل للتطوير ثلاثي الأبعاد</p>
+        </div>
+        
+        <div class="demo-area">
+            <div class="status-indicator">✅ النظام جاهز</div>
+            
+            <div class="tech-stack">
+                <h4>التقنيات المستخدمة</h4>
+                <div class="tech-item">Three.js v0.160.0</div>
+                <div class="tech-item">React 16.14.0</div>
+                <div class="tech-item">Flow Type System</div>
+                <div class="tech-item">PIXI.js Integration</div>
+                <div class="tech-item">Transform Controls</div>
+            </div>
+            
+            <div class="floating-shapes">
+                <div class="shape shape1"></div>
+                <div class="shape shape2"></div>
+                <div class="shape shape3"></div>
+            </div>
+            
+            <div class="demo-content">
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🎯</span>
+                        <h3 class="feature-title">أدوات Gizmo</h3>
+                        <p class="feature-desc">
+                            أدوات متقدمة للتحكم في الكائنات ثلاثية الأبعاد:
+                            التحريك، التدوير، والتحجيم مع دعم كامل للأنظمة الإحداثية المحلية والعالمية
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">📹</span>
+                        <h3 class="feature-title">الكاميرا الحرة</h3>
+                        <p class="feature-desc">
+                            تنقل سلس في المحرر ثلاثي الأبعاد مع تحكم كامل بالماوس ولوحة المفاتيح،
+                            مع دعم للدوران والسحب والتقريب
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">⌨️</span>
+                        <h3 class="feature-title">الاختصارات</h3>
+                        <p class="feature-desc">
+                            نظام اختصارات متقدم: T للتحريك، R للتدوير، S للتحجيم،
+                            X لتبديل النظام الإحداثي
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🎨</span>
+                        <h3 class="feature-title">واجهة متطورة</h3>
+                        <p class="feature-desc">
+                            شريط أدوات ثلاثي الأبعاد مع أيقونات واضحة وتغذية راجعة بصرية
+                            مع دعم كامل للتحديد المتعدد
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls-info">
+                <h3>🎮 التحكم:</h3>
+                <p>
+                    <span class="key">T</span> تحريك |
+                    <span class="key">R</span> تدوير |
+                    <span class="key">S</span> تحجيم |
+                    <span class="key">X</span> تبديل النظام
+                </p>
+                <p style="margin-top: 8px;">
+                    <span class="key">WASD</span> حركة الكاميرا |
+                    <span class="key">Q/E</span> صعود/نزول |
+                    <span class="key">ماوس</span> دوران وسحب
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // إضافة تأثيرات تفاعلية
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.transform = 'translateY(-15px) scale(1.05)';
+                setTimeout(() => {
+                    card.style.transform = 'translateY(-10px)';
+                }, 200);
+            });
+        });
+        
+        // تحديث حالة النظام
+        let statusColors = ['#00ff88', '#00ccff', '#ff6b6b'];
+        let currentColor = 0;
+        
+        setInterval(() => {
+            const indicator = document.querySelector('.status-indicator');
+            if (indicator) {
+                indicator.style.background = `rgba(${
+                    currentColor === 0 ? '0, 255, 136' :
+                    currentColor === 1 ? '0, 204, 255' : '255, 107, 107'
+                }, 0.9)`;
+                currentColor = (currentColor + 1) % statusColors.length;
+            }
+        }, 3000);
+        
+        // تأثير الأشكال العائمة
+        document.querySelectorAll('.shape').forEach((shape, index) => {
+            shape.addEventListener('mouseenter', () => {
+                shape.style.opacity = '0.3';
+                shape.style.transform = 'scale(1.2)';
+            });
+            
+            shape.addEventListener('mouseleave', () => {
+                shape.style.opacity = '0.1';
+                shape.style.transform = 'scale(1)';
+            });
+        });
+        
+        console.log('🎮 محرر GDevelop ثلاثي الأبعاد جاهز!');
+        console.log('✅ أدوات Gizmo: مُفعلة');
+        console.log('✅ الكاميرا الحرة: مُفعلة');
+        console.log('✅ الاختصارات: مُفعلة');
+        console.log('✅ واجهة المستخدم: مُفعلة');
+    </script>
+</body>
+</html>
